@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public class CustomResourceBundle extends ResourceBundleMessageSource implements CustomMessageSource {
 
-    private Locale locale;
+    private final Locale locale;
 
     public CustomResourceBundle(String locale) {
         this.locale = new Locale(locale);
@@ -17,4 +17,11 @@ public class CustomResourceBundle extends ResourceBundleMessageSource implements
     public String getMessage(String var1, Object[] var2) throws NoSuchMessageException {
         return getMessage(var1, var2, locale);
     }
+
+    @Override
+    public String getMessage(String var1) throws NoSuchMessageException {
+        return getMessage(var1, null, locale);
+    }
+
+
 }

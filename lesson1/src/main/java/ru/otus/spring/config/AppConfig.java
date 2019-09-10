@@ -1,31 +1,31 @@
 package ru.otus.spring.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import ru.otus.spring.dao.QuestionDAO;
-import ru.otus.spring.services.IQuestionDAO;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import ru.otus.spring.services.QuestionDAO;
 import ru.otus.spring.util.CustomResourceBundle;
 
 @Configuration
-@PropertySource("classpath:config.properties")
 public class AppConfig {
 
     @Autowired
-    Environment env;
+    AppProperties properties;
 
     @Bean
-    IQuestionDAO questionDAO(@Value("${fileName}") String fileName) {
+    QuestionDAO questionDAO() {
+        return new ru.otus.spring.dao.QuestionDAO(properties.getFileName());
+    }
 
-        return new QuestionDAO(fileName + "_" + env.getProperty("locale") + ".csv");
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 
     @Bean
     public CustomResourceBundle messageSource() {
-        CustomResourceBundle rs = new CustomResourceBundle(env.getProperty("locale"));
+        CustomResourceBundle rs = new CustomResourceBundle(properties.getLocale());
         rs.setBasename("localization/l10n");
         rs.setDefaultEncoding("UTF-8");
         rs.setUseCodeAsDefaultMessage(false);

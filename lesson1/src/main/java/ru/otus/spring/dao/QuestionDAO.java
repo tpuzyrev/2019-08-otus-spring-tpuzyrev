@@ -2,7 +2,6 @@ package ru.otus.spring.dao;
 
 import ru.otus.spring.dto.Answer;
 import ru.otus.spring.dto.Question;
-import ru.otus.spring.services.IQuestionDAO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class QuestionDAO  implements IQuestionDAO {
+public class QuestionDAO  implements ru.otus.spring.services.QuestionDAO {
 
     final private String fileName;
 

@@ -1,16 +1,13 @@
 package ru.otus.spring.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.util.CustomMessageSource;
 
-import java.util.Collection;
-import java.util.Scanner;
+import java.util.*;
 
 @Service
-public class ConsoleInteractionImpl implements IConsoleInteraction {
+public class ConsoleInteractionImpl implements UserInteraction {
 
     Scanner scanner;
 
@@ -28,22 +25,37 @@ public class ConsoleInteractionImpl implements IConsoleInteraction {
         return scanner.next();
     }
 
-    public Integer getInputNumber(Collection<Integer> validNumbers) {
-        Integer variantNumber = null;
-        try {
-            variantNumber = Integer.parseInt(scanner.next());
-        } catch (Exception e) {
-            display(message.getMessage("message.inputNumber", null));
-            variantNumber = getInputNumber(validNumbers);
-        }
-        if (!validNumbers.contains(variantNumber)) {
-            display(message.getMessage("message.incorrectNumber", validNumbers.toArray()));
-            getInputNumber(validNumbers);
+    public Optional<List<Integer>> getInputNumber(Collection<Integer> validNumbers, boolean hasSeveralVariant) {
+        final List<Integer> variantNumberList = new ArrayList<>();
+        Optional<String> inputOpt = Optional.of(scanner.next());
+        if (hasSeveralVariant && inputOpt.get().contains(",")) {
+            for (String s1 : inputOpt.get().split(",")) {
+                try {
+                    Integer variantNumber = Integer.parseInt(s1);
+                    if (!validNumbers.contains(variantNumber)) {
+                        display(message.getMessage("message.incorrectNumber", new Object[] {Arrays.toString(validNumbers.toArray())}));
+                        return getInputNumber(validNumbers, hasSeveralVariant);
+                    }
+                    variantNumberList.add(variantNumber);
+                } catch (Exception e) {
+                    display(message.getMessage("message.inputNumber"));
+                    return getInputNumber(validNumbers, hasSeveralVariant);
+                }
+            }
         } else {
-            return variantNumber;
+            try {
+                Integer variantNumber = Integer.parseInt(inputOpt.get());
+                if (!validNumbers.contains(variantNumber)) {
+                    display(message.getMessage("message.incorrectNumber", new Object[] {Arrays.toString(validNumbers.toArray())}));
+                    return getInputNumber(validNumbers, hasSeveralVariant);
+                }
+                variantNumberList.add(variantNumber);
+            } catch (Exception e) {
+                display(message.getMessage("message.inputNumber"));
+                return getInputNumber(validNumbers, hasSeveralVariant);
+            }
         }
-
-        return null;
+        return Optional.of(variantNumberList);
     }
 
     public void display(String text) {

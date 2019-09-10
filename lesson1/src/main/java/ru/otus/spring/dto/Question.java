@@ -20,8 +20,4 @@ public class Question {
     public boolean hasSeveralVariant() {
         return answerList.stream().filter(answer -> answer.isCorrect).count() > 1;
     }
-
-    public Long getRightCountAnswer() {
-        return answerList.stream().filter(answer -> answer.isCorrect).count();
-    }
 }
