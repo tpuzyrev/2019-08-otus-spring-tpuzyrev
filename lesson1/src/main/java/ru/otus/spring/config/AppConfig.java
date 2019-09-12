@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import ru.otus.spring.dao.QuestionDAOImpl;
 import ru.otus.spring.services.QuestionDAO;
 import ru.otus.spring.util.CustomResourceBundle;
 
@@ -15,7 +16,7 @@ public class AppConfig {
 
     @Bean
     QuestionDAO questionDAO() {
-        return new ru.otus.spring.dao.QuestionDAO(properties.getFileName());
+        return new QuestionDAOImpl(properties.getFileName());
     }
 
     @Bean

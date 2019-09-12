@@ -18,6 +18,6 @@ public class Question {
     private List<Answer> answerList = new ArrayList<>();
 
     public boolean hasSeveralVariant() {
-        return answerList.stream().filter(answer -> answer.isCorrect).count() > 1;
+        return answerList.stream().filter(answer -> answer.isCorrect()).count() > 1;
     }
 }

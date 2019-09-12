@@ -2,20 +2,21 @@ package ru.otus.spring.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.config.MessageKey;
 import ru.otus.spring.util.CustomMessageSource;
 
 import java.util.*;
 
 @Service
-public class ConsoleInteractionImpl implements UserInteraction {
+public class ConsoleUserInteractionImpl implements UserInteraction {
 
-    Scanner scanner;
+    private Scanner scanner;
 
     final private CustomMessageSource message;
 
 
     @Autowired
-    public ConsoleInteractionImpl(CustomMessageSource message) {
+    public ConsoleUserInteractionImpl(CustomMessageSource message) {
 
         scanner = new Scanner(System.in);
         this.message = message;
@@ -25,7 +26,7 @@ public class ConsoleInteractionImpl implements UserInteraction {
         return scanner.next();
     }
 
-    public Optional<List<Integer>> getInputNumber(Collection<Integer> validNumbers, boolean hasSeveralVariant) {
+    public List<Integer> getInputNumber(Collection<Integer> validNumbers, boolean hasSeveralVariant) {
         final List<Integer> variantNumberList = new ArrayList<>();
         Optional<String> inputOpt = Optional.of(scanner.next());
         if (hasSeveralVariant && inputOpt.get().contains(",")) {
@@ -33,12 +34,12 @@ public class ConsoleInteractionImpl implements UserInteraction {
                 try {
                     Integer variantNumber = Integer.parseInt(s1);
                     if (!validNumbers.contains(variantNumber)) {
-                        display(message.getMessage("message.incorrectNumber", new Object[] {Arrays.toString(validNumbers.toArray())}));
+                        display(message.getMessage(MessageKey.INCORRECT_NUMBER, new Object[] {Arrays.toString(validNumbers.toArray())}));
                         return getInputNumber(validNumbers, hasSeveralVariant);
                     }
                     variantNumberList.add(variantNumber);
                 } catch (Exception e) {
-                    display(message.getMessage("message.inputNumber"));
+                    display(message.getMessage(MessageKey.INPUT_NUMBER));
                     return getInputNumber(validNumbers, hasSeveralVariant);
                 }
             }
@@ -46,16 +47,16 @@ public class ConsoleInteractionImpl implements UserInteraction {
             try {
                 Integer variantNumber = Integer.parseInt(inputOpt.get());
                 if (!validNumbers.contains(variantNumber)) {
-                    display(message.getMessage("message.incorrectNumber", new Object[] {Arrays.toString(validNumbers.toArray())}));
+                    display(message.getMessage(MessageKey.INCORRECT_NUMBER, new Object[] {Arrays.toString(validNumbers.toArray())}));
                     return getInputNumber(validNumbers, hasSeveralVariant);
                 }
                 variantNumberList.add(variantNumber);
             } catch (Exception e) {
-                display(message.getMessage("message.inputNumber"));
+                display(message.getMessage(MessageKey.INPUT_NUMBER));
                 return getInputNumber(validNumbers, hasSeveralVariant);
             }
         }
-        return Optional.of(variantNumberList);
+        return variantNumberList;
     }
 
     public void display(String text) {

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class QuestionDAO  implements ru.otus.spring.services.QuestionDAO {
+public class QuestionDAOImpl implements ru.otus.spring.services.QuestionDAO {
 
     final private String fileName;
 
@@ -19,7 +19,7 @@ public class QuestionDAO  implements ru.otus.spring.services.QuestionDAO {
 
     boolean initiated = false;
 
-    public QuestionDAO(String fileName) {
+    public QuestionDAOImpl(String fileName) {
         this.fileName = fileName;
     }
 
@@ -44,7 +44,7 @@ public class QuestionDAO  implements ru.otus.spring.services.QuestionDAO {
                     break;
                 }
             } catch (IOException e) {
-                System.out.println(String.format("Ошибка чтения файла %s!", fileName));
+                System.out.println(String.format("Error reading file %s!", fileName));
                 break;
             }
             Scanner scanner = new Scanner(line);

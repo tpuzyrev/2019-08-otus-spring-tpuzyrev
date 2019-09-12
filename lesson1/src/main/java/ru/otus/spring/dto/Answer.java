@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Answer {
 
-    public boolean isCorrect;
+    private boolean isCorrect;
 
-    public String text;
+    private String text;
 
     public Answer(String text) {
         this.text = text;

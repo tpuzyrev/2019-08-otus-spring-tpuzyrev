@@ -5,26 +5,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import ru.otus.spring.config.MessageKey;
 import ru.otus.spring.dto.Answer;
 import ru.otus.spring.dto.Question;
 import ru.otus.spring.util.CustomMessageSource;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 @Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Getter
 public class PersonalTestImpl implements PersonalTest{
 
-    final UserInteraction console;
+    final private UserInteraction console;
 
-    final CustomMessageSource message;
+    final private CustomMessageSource message;
 
-    int questionCounter = 0;
+    private int questionCounter = 0;
 
-    int errorCounter = 0;
+    private int errorCounter = 0;
 
-    StringBuilder result = new StringBuilder();
+    private StringBuilder result = new StringBuilder();
 
     private String fio;
 
@@ -33,15 +34,15 @@ public class PersonalTestImpl implements PersonalTest{
     public PersonalTestImpl(UserInteraction consoleInteraction, CustomMessageSource message) {
         this.console = consoleInteraction;
         this.message = message;
-        console.display(message.getMessage("message.Hello") + "\n");
-        console.display(message.getMessage("message.Hello2") + "\n\n");
+        console.display(message.getMessage(MessageKey.HELLO) + "\n");
+        console.display(message.getMessage(MessageKey.HELLO2) + "\n\n");
     }
 
     @Override
     public void askFIO() {
-        console.display(message.getMessage("message.fio"));
+        console.display(message.getMessage(MessageKey.FIO));
         fio = console.getInputText();
-        result.append(message.getMessage("message.participant")).append(fio).append("\n");
+        result.append(message.getMessage(MessageKey.PARTICIPANT)).append(fio).append("\n");
     }
 
     @Override
@@ -51,26 +52,26 @@ public class PersonalTestImpl implements PersonalTest{
         List<Integer> rightAnswerNumber = new ArrayList<>();
         Map<Integer, String> ordinalToAnswerTextMap = new HashMap<>();
         for (Answer answer : question.getAnswerList()) {
-            String text = String.format("\t\t%s", message.getMessage("message.variant", new Object[] {++i, answer.getText()}));
+            String text = String.format("\t\t%s", message.getMessage(MessageKey.VARIANT, new Object[] {++i, answer.getText()}));
             ordinalToAnswerTextMap.put(i, text);
             console.display(text);
-            if (answer.isCorrect) {
+            if (answer.isCorrect()) {
                 rightAnswerNumber.add(i);
             }
         }
         boolean hasSeveralVariant = question.hasSeveralVariant();
         if (hasSeveralVariant) {
-            console.display(message.getMessage("message.severalVariant"));
+            console.display(message.getMessage(MessageKey.SEVERAL_VARIANT));
         }
         List<String> personAnswerList = getPersonAnswerList(ordinalToAnswerTextMap, hasSeveralVariant, rightAnswerNumber);
 
         result.append(queryText).append("\n");
-        result.append(message.getMessage("message.yourAnswer")).append("\n");
+        result.append(message.getMessage(MessageKey.YOUR_ANSWER)).append("\n");
         personAnswerList.stream().forEach(s -> result.append(s).append("\n"));
     }
 
     private String displayQuestion(Question question) {
-        String queryText = message.getMessage("message.question", new Object[] {question.getNumber(), question.getText()});
+        String queryText = message.getMessage(MessageKey.QUESTION, new Object[] {question.getNumber(), question.getText()});
         questionCounter++;
         console.display(queryText);
         return queryText;
@@ -78,13 +79,13 @@ public class PersonalTestImpl implements PersonalTest{
 
     private List<String> getPersonAnswerList(Map<Integer, String> map, boolean hasSeveralVariant, List<Integer> rightAnswerNumber) {
         List<String> personAnswerList = new ArrayList<>();
-        Optional<List<Integer>> variantNumberOpt = console.getInputNumber(map.keySet(), hasSeveralVariant);
-        variantNumberOpt.ifPresent(integers -> integers.forEach(variantNumber -> {
+        List<Integer> variantNumberList = console.getInputNumber(map.keySet(), hasSeveralVariant);
+        variantNumberList.forEach(variantNumber -> {
             personAnswerList.add(map.get(variantNumber));
             if (!rightAnswerNumber.contains(variantNumber)) {
                 errorCounter++;
             }
-        }));
+        });
         return personAnswerList;
     }
 
@@ -93,7 +94,7 @@ public class PersonalTestImpl implements PersonalTest{
     @Override
     public void printResult() {
         console.display(result.toString());
-        console.display(message.getMessage("message.result", new Object[] {questionCounter, questionCounter - errorCounter}));
+        console.display(message.getMessage(MessageKey.RESULT, new Object[] {questionCounter, questionCounter - errorCounter}));
     }
 }
 
