@@ -1,4 +1,4 @@
-package ru.otus.spring.services;
+package ru.otus.spring.dao;
 
 import ru.otus.spring.dto.Question;
 

@@ -1,12 +1,11 @@
-package ru.otus.spring.config;
+package ru.otus.spring.usertesting.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import ru.otus.spring.dao.QuestionDAOImpl;
-import ru.otus.spring.dao.QuestionDAO;
-import ru.otus.spring.util.CustomResourceBundle;
+import ru.otus.spring.usertesting.dao.QuestionDAOImpl;
+import ru.otus.spring.usertesting.dao.QuestionDAO;
+import ru.otus.spring.usertesting.util.CustomResourceBundle;
 
 @Configuration
 public class AppConfig {
@@ -16,12 +15,7 @@ public class AppConfig {
 
     @Bean
     QuestionDAO questionDAO() {
-        return new QuestionDAOImpl(properties.getFileName());
-    }
-
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
+        return new QuestionDAOImpl(properties.getFileLocaleName());
     }
 
     @Bean

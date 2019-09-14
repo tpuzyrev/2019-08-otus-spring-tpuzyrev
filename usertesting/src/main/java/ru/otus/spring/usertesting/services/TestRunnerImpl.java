@@ -1,9 +1,9 @@
-package ru.otus.spring.services;
+package ru.otus.spring.usertesting.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.otus.spring.dao.QuestionDAO;
-import ru.otus.spring.dto.Question;
+import ru.otus.spring.usertesting.dao.QuestionDAO;
+import ru.otus.spring.usertesting.dto.Question;
 
 import java.util.Iterator;
 
