@@ -11,10 +11,10 @@ import ru.otus.spring.usertesting.util.CustomResourceBundle;
 public class AppConfig {
 
     @Autowired
-    AppProperties properties;
+    private AppProperties properties;
 
     @Bean
-    QuestionDAO questionDAO() {
+    public QuestionDAO questionDAO() {
         return new QuestionDAOImpl(properties.getFileLocaleName());
     }
 
