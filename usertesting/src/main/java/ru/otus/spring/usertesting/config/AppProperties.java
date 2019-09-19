@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "application")
 public class AppProperties {
 
-    public String locale;
+    private String locale;
 
-    public String fileName;
+    private String fileName;
 
     public String getLocale() {
         return locale;

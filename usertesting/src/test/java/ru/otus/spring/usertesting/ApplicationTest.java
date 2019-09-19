@@ -42,7 +42,7 @@ public class ApplicationTest {
 
         testRunner.runTesting();
 
-        Mockito.verify(personalTest, times(2)).askFIO();
+        Mockito.verify(personalTest, times(1)).askFIO();
         Mockito.verify(personalTest, times(1)).askQuestion(question1);
         Mockito.verify(personalTest, times(1)).askQuestion(question2);
         Mockito.verify(personalTest, times(1)).printResult();

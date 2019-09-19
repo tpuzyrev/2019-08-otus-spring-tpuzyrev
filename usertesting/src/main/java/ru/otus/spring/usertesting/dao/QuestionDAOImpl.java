@@ -18,7 +18,7 @@ public class QuestionDAOImpl implements QuestionDAO {
 
     final private List<Question> questionList = new ArrayList<Question>();
 
-    boolean initiated = false;
+    private boolean initiated = false;
 
     public QuestionDAOImpl(String fileName) {
         this.fileName = fileName;
