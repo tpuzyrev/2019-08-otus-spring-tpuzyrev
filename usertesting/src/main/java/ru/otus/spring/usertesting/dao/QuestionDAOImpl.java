@@ -1,7 +1,8 @@
-package ru.otus.spring.dao;
+package ru.otus.spring.usertesting.dao;
 
-import ru.otus.spring.dto.Answer;
-import ru.otus.spring.dto.Question;
+
+import ru.otus.spring.usertesting.dto.Answer;
+import ru.otus.spring.usertesting.dto.Question;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class QuestionDAOImpl implements QuestionDAO {
 
     final private List<Question> questionList = new ArrayList<Question>();
 
-    boolean initiated = false;
+    private boolean initiated = false;
 
     public QuestionDAOImpl(String fileName) {
         this.fileName = fileName;
