@@ -1,0 +1,5 @@
+application:
+  locale: ru
+  fileName: questions
+spring.shell.interactive.enabled: false
+spring.shell.script.spring.shell.script: false
