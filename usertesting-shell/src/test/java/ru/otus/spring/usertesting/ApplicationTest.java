@@ -2,31 +2,23 @@ package ru.otus.spring.usertesting;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import ru.otus.spring.usertesting.controller.TestRunner;
 import ru.otus.spring.usertesting.dao.QuestionDAO;
 import ru.otus.spring.usertesting.dto.Question;
 import ru.otus.spring.usertesting.services.PersonalTest;
-import ru.otus.spring.usertesting.services.TestRunner;
-import ru.otus.spring.usertesting.services.TestRunnerImpl;
 
 import java.util.Arrays;
 
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @DisplayName("Задаем вопросы")
-@SpringBootTest(properties = {
-        InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
-        ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
-})
+@SpringBootTest
 public class ApplicationTest {
 
     @Autowired

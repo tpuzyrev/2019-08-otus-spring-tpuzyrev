@@ -1,4 +1,4 @@
-package ru.otus.spring.usertesting.services;
+package ru.otus.spring.usertesting.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
@@ -9,13 +9,15 @@ import ru.otus.spring.usertesting.config.AppProperties;
 import ru.otus.spring.usertesting.config.MessageKey;
 import ru.otus.spring.usertesting.dao.QuestionDAO;
 import ru.otus.spring.usertesting.dto.Question;
+import ru.otus.spring.usertesting.services.PersonalTest;
+import ru.otus.spring.usertesting.services.UserInteraction;
 import ru.otus.spring.usertesting.util.CustomMessageSource;
 
 import java.util.Iterator;
 import java.util.Locale;
 
 @ShellComponent
-public class TestRunnerImpl implements TestRunner {
+public class TestRunner {
 
     final private QuestionDAO questionDAO;
     final private PersonalTest personalTest;
@@ -24,11 +26,11 @@ public class TestRunnerImpl implements TestRunner {
     final private AppProperties appProperties;
 
     @Autowired
-    public TestRunnerImpl(QuestionDAO questionDAO,
-                          PersonalTest personalTest,
-                          UserInteraction consoleInteraction,
-                          CustomMessageSource message,
-                          AppProperties appProperties) {
+    public TestRunner(QuestionDAO questionDAO,
+                      PersonalTest personalTest,
+                      UserInteraction consoleInteraction,
+                      CustomMessageSource message,
+                      AppProperties appProperties) {
         this.questionDAO = questionDAO;
         this.personalTest = personalTest;
         this.console = consoleInteraction;
