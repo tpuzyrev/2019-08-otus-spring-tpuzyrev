@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import ru.otus.spring.jdbclibrary.dto.Author;
 import ru.otus.spring.jdbclibrary.dto.Book;
@@ -23,8 +22,6 @@ import java.util.*;
 public class BookDaoJDBC implements BookDao {
 
     private final NamedParameterJdbcOperations jdbc;
-    private final GenreDao genreDao;
-    private final AuthorDao authorDao;
 
     @Override
     public int count () {
@@ -34,24 +31,6 @@ public class BookDaoJDBC implements BookDao {
     @Override
     public long insert(Book book) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        Long genreId = book.getGenre().getId();
-        if (genreId == null) {
-            genreDao.insert(book.getGenre());
-        } else {
-            Optional<Genre> genre = Optional.ofNullable(genreDao.getById(genreId));
-            if (!genre.isPresent()) {
-                throw new RuntimeException("Genre was not found by id =" + genreId);
-            }
-        }
-        Long authorId = book.getAuthor().getId();
-        if (authorId == null) {
-            authorDao.insert(book.getAuthor());
-        } else {
-            List<Author> authorList = authorDao.getByIds(Collections.singletonList(authorId));
-            if (CollectionUtils.isEmpty(authorList)) {
-                throw new RuntimeException("Author was not found by id =" + authorId);
-            }
-        }
         jdbc.getJdbcOperations().update(con -> {
             PreparedStatement ps = con.prepareStatement("insert into books (name, genreid, authorid, page) values (?, ?, ?, ?)", new String[]{"id"});
             ps.setString(1, book.getName());
@@ -83,17 +62,7 @@ public class BookDaoJDBC implements BookDao {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Book> bookOpt = Optional.ofNullable(getById(id));
-        if (bookOpt.isPresent()) {
-            Book book = bookOpt.get();
-            if (book.getAuthor() != null && book.getAuthor().getId() != null) {
-               authorDao.deleteById(book.getAuthor().getId());
-            }
-            if (book.getGenre() != null && book.getGenre().getId() != null) {
-                genreDao.deleteById(book.getGenre().getId());
-            }
-            jdbc.update("delete from books where id = :id", Collections.singletonMap("id", id));
-        }
+        jdbc.update("delete from books where id = :id", Collections.singletonMap("id", id));
     }
 
     @Override
