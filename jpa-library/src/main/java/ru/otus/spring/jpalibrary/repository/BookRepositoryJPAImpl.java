@@ -1,5 +1,6 @@
 package ru.otus.spring.jpalibrary.repository;
 
+import liquibase.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.jpalibrary.domain.Book;
@@ -58,14 +59,14 @@ public class BookRepositoryJPAImpl implements BookRepository {
     @Override
     public List<Book> getByParam(String title, String authorBrief, String genreName) {
         TypedQuery<Book> genreTypedQuery = em.createQuery("select b from Book b" +
-                " left join Genres g on b.genre = g " +
-                " left join Author a on b.author = a " +
-                " where b.name like :title " +
-                " and a.name like :authorBrief" +
-                " and g.name like :genreName", Book.class);
-        genreTypedQuery.setParameter("title", title);
-        genreTypedQuery.setParameter("authorBrief", authorBrief);
-        genreTypedQuery.setParameter("genreName", genreName);
+                " left join fetch b.genre g " +
+                " left join fetch b.author a " +
+                " where (:title is null or b.name like :title) " +
+                " and (:authorBrief is null or a.name like :authorBrief) " +
+                " and (:genreName is null or g.name like :genreName)", Book.class);
+        genreTypedQuery.setParameter("title", StringUtils.isEmpty(title) ? null : title);
+        genreTypedQuery.setParameter("authorBrief", StringUtils.isEmpty(authorBrief) ? null : authorBrief);
+        genreTypedQuery.setParameter("genreName", StringUtils.isEmpty(genreName) ? null : genreName);
         return genreTypedQuery.getResultList();
 
     }

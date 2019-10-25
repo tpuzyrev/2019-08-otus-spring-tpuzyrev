@@ -23,16 +23,13 @@ import java.util.Optional;
 public class BookRepositoryJPAImplTest {
 
     @Autowired
-    BookRepository bookRepository;
-
+    private BookRepository bookRepository;
     @Autowired
-    GenreRepository genreRepository;
-
+    private GenreRepository genreRepository;
     @Autowired
-    AuthorRepository authorDao;
-
+    private AuthorRepository authorDao;
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
     @Test
     public void count() {
