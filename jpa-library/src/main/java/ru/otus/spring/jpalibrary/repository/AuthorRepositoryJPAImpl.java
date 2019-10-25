@@ -1,4 +1,4 @@
-package ru.otus.spring.jpalibrary.dao;
+package ru.otus.spring.jpalibrary.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -12,7 +12,7 @@ import java.util.*;
 @SuppressWarnings("JpaQlInspection")
 @Repository
 @RequiredArgsConstructor
-public class AuthorDaoJPA implements AuthorDao {
+public class AuthorRepositoryJPAImpl implements AuthorRepository {
 
     @PersistenceContext
     private EntityManager em;

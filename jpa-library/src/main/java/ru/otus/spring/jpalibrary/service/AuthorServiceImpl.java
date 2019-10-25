@@ -3,7 +3,7 @@ package ru.otus.spring.jpalibrary.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import ru.otus.spring.jpalibrary.dao.AuthorDao;
+import ru.otus.spring.jpalibrary.repository.AuthorRepository;
 import ru.otus.spring.jpalibrary.domain.Author;
 
 import java.util.Collection;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
 
-    private final AuthorDao authorDao;
+    private final AuthorRepository authorDao;
 
     @Override
     public List<Author> findAuthorsByBrief(String brief) {

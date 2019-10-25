@@ -1,4 +1,4 @@
-package ru.otus.spring.jpalibrary.dao;
+package ru.otus.spring.jpalibrary.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ import java.util.List;
 @SuppressWarnings("JpaQlInspection")
 @Repository
 @RequiredArgsConstructor
-public class CommentDaoJPA implements CommentDao {
+public class CommentRepositoryJPAImpl implements CommentRepository {
 
     @PersistenceContext
     private EntityManager em;

@@ -1,4 +1,4 @@
-package ru.otus.spring.jpalibrary.dao;
+package ru.otus.spring.jpalibrary.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -12,7 +12,7 @@ import java.util.*;
 @SuppressWarnings("JpaQlInspection")
 @Repository
 @RequiredArgsConstructor
-public class BookDaoJPA implements BookDao {
+public class BookRepositoryJPAImpl implements BookRepository {
 
     @PersistenceContext
     private EntityManager em;
@@ -30,13 +30,19 @@ public class BookDaoJPA implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        TypedQuery<Book> genreTypedQuery = em.createQuery("select b from Book b", Book.class);
-        return genreTypedQuery.getResultList();
+        TypedQuery<Book> query = em.createQuery("select b from Book as b " +
+                " left join fetch b.author" +
+                " left join fetch b.genre", Book.class);
+        return query.getResultList();
     }
 
     @Override
     public Optional<Book> getById(Long id) {
-        return Optional.ofNullable(em.find(Book.class, id));
+        TypedQuery<Book> query = em.createQuery("select b from Book as b " +
+                " left join fetch b.author" +
+                " left join fetch b.genre where b.id =: bookId", Book.class);
+        query.setParameter("bookId", id);
+        return Optional.ofNullable(query.getResultList()).orElse(Collections.EMPTY_LIST).stream().findFirst();
     }
 
     @Override

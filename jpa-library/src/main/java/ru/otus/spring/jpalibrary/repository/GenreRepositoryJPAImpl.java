@@ -1,4 +1,4 @@
-package ru.otus.spring.jpalibrary.dao;
+package ru.otus.spring.jpalibrary.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 @EntityScan
-public class GenreDaoJPA implements GenreDao {
+public class GenreRepositoryJPAImpl implements GenreRepository {
 
     @PersistenceContext
     private final EntityManager em;

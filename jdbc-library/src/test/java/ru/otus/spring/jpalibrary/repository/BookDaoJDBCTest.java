@@ -1,27 +1,20 @@
-package ru.otus.spring.jpalibrary.dao;
+package ru.otus.spring.jpalibrary.repository;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.otus.spring.jpalibrary.domain.Author;
 import ru.otus.spring.jpalibrary.domain.Book;
 import ru.otus.spring.jpalibrary.domain.Genre;
 
-import java.time.Instant;
-import java.util.Date;
-import java.util.Optional;
-
-//@RunWith(SpringRunner.class)
-//@EntityScan("ru.otus.spring.jpalibrary.domain")
-//@DataJpaTest
-//@Import({BookDaoJPA.class, AuthorDaoJPA.class, GenreDaoJPA.class})
-public class BookDaoJPATest {
+@RunWith(SpringRunner.class)
+@JdbcTest
+@Import({BookDaoJDBC.class, GenreDaoJDBC.class, AuthorDaoJDBC.class})
+public class BookDaoJDBCTest {
 
     @Autowired
     BookDao bookDao;
@@ -34,20 +27,19 @@ public class BookDaoJPATest {
     @Test
     public void insert() {
         Long bookId = bookDao.insert(prepareBook());
-        Optional<Book> addedBookOpt = bookDao.getById(bookId);
-        Assert.assertTrue(addedBookOpt.isPresent());
-        Book addedBook = addedBookOpt.get();
+        Book addedBook = bookDao.getById(bookId);
         Assert.assertNotNull(addedBook);
         Assert.assertNotNull(addedBook.getAuthor());
         Assert.assertNotNull(addedBook.getGenre());
-        Assert.assertEquals("Test Author", addedBook.getAuthor().getName());
-        Assert.assertEquals("Test Genre", addedBook.getGenre().getName());
-        Assert.assertEquals("Test Book", addedBook.getName());
+        Assert.assertTrue(addedBook.getAuthor().getName().equals("Test Author"));
+        Assert.assertTrue(addedBook.getGenre().getName().equals("Test Genre"));
+        Assert.assertTrue(addedBook.getName().equals("Test Book"));
     }
 
     @Test
     public void delete() {
-        Long bookId = bookDao.insert(prepareBook());
+        insert();
+        Long bookId = bookDao.getAll().stream().findAny().get().getId();
         bookDao.deleteById(bookId);
         count();
     }

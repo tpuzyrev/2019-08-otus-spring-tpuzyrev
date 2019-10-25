@@ -29,6 +29,9 @@
             </column>
             <column name="NAME" type="VARCHAR(100)" remarks="Наименование автора"/>
         </createTable>
+        <addForeignKeyConstraint baseTableName="BOOKS" baseColumnNames="AUTHORID" constraintName="FK_AUTHOR"
+                                 referencedTableName="AUTHORS"
+                                 referencedColumnNames="ID"/>
     </changeSet>
 
     <changeSet id="CREATE_GENRES_TABLE" author="tpuzyryov">
@@ -41,6 +44,9 @@
             </column>
             <column name="NAME" type="VARCHAR(100)" remarks="Наименование жанра"/>
         </createTable>
+        <addForeignKeyConstraint baseTableName="BOOKS" baseColumnNames="GENREID" constraintName="FK_GENRE"
+                                 referencedTableName="GENRES"
+                                 referencedColumnNames="ID"/>
     </changeSet>
 
     <changeSet id="FILL_DATA" author="tpuzyryov">

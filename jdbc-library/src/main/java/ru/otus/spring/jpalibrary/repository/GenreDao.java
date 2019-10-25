@@ -1,4 +1,4 @@
-package ru.otus.spring.jpalibrary.dao;
+package ru.otus.spring.jpalibrary.repository;
 
 import ru.otus.spring.jpalibrary.domain.Genre;
 

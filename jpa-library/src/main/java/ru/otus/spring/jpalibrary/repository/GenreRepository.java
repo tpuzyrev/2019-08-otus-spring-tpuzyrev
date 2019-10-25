@@ -1,11 +1,11 @@
-package ru.otus.spring.jpalibrary.dao;
+package ru.otus.spring.jpalibrary.repository;
 
 import ru.otus.spring.jpalibrary.domain.Genre;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface GenreDao {
+public interface GenreRepository {
     long insert(Genre genre);
 
     List<Genre> findAllGenres();

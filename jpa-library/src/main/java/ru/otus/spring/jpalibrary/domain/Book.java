@@ -2,6 +2,7 @@ package ru.otus.spring.jpalibrary.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,6 +12,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Book {
+
+    public Book(Long id, String name, Author author) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +38,8 @@ public class Book {
     @Column(name = "PAGE")
     private Integer page;
 
-    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "COMMENTS", joinColumns = {@JoinColumn(name="ID")},
-            inverseJoinColumns = {@JoinColumn(name="BOOKID")} )
-    private List<Comment> commentList;
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments;
 
     public Book(String name, Genre genre, Author author, int page) {
         this.name = name;

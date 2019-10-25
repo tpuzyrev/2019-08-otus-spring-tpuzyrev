@@ -3,7 +3,7 @@ package ru.otus.spring.jpalibrary.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import ru.otus.spring.jpalibrary.dao.GenreDao;
+import ru.otus.spring.jpalibrary.repository.GenreDao;
 import ru.otus.spring.jpalibrary.domain.Genre;
 
 import java.util.List;

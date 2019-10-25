@@ -1,11 +1,11 @@
-package ru.otus.spring.jpalibrary.dao;
+package ru.otus.spring.jpalibrary.repository;
 
 import ru.otus.spring.jpalibrary.domain.Author;
 
 import java.util.Collection;
 import java.util.List;
 
-public interface AuthorDao {
+public interface AuthorRepository {
 
     long insert(Author author);
 

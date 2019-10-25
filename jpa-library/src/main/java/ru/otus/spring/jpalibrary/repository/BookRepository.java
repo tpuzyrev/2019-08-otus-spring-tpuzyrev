@@ -1,17 +1,18 @@
-package ru.otus.spring.jpalibrary.dao;
+package ru.otus.spring.jpalibrary.repository;
 
 import ru.otus.spring.jpalibrary.domain.Book;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface BookDao {
+public interface BookRepository {
     int count();
 
     long insert(Book prepareBook);
 
     List<Book> getAll();
 
-    Book getById(Long id);
+    Optional<Book> getById(Long id);
 
     void deleteById(Long id);
 

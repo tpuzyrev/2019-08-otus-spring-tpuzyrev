@@ -1,12 +1,10 @@
 package ru.otus.spring.jpalibrary.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
-import org.hibernate.validator.messageinterpolation.HibernateMessageInterpolatorContext;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import org.springframework.util.CollectionUtils;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import ru.otus.spring.jpalibrary.domain.Author;
 import ru.otus.spring.jpalibrary.domain.Book;
@@ -17,7 +15,6 @@ import ru.otus.spring.jpalibrary.service.BookService;
 import ru.otus.spring.jpalibrary.service.GenreService;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 @ShellComponent
 @RequiredArgsConstructor
@@ -36,6 +33,7 @@ public class LibraryController {
     }
 
     @ShellMethod(value = "Add comment for book", key = {"ac", "add comment"})
+    @Transactional
     public String addComment(
             @ShellOption(defaultValue = "", value = {"b"}, arity = 1) Long bookId,
             @ShellOption(defaultValue = "", value = {"c"}, arity = 1) String message) {
@@ -49,6 +47,7 @@ public class LibraryController {
     }
 
     @ShellMethod(value = "Get all book comments", key = {"bc", "book comments"})
+    @Transactional
     public String getCommentsByBook(
             @ShellOption(defaultValue = "", value = {"b"}, arity = 1) Long bookId) {
         if (bookId == null) {
@@ -58,11 +57,11 @@ public class LibraryController {
         if (book == null) {
             return "Книга с ИД=" + bookId + "не найдена!";
         }
-        List<Comment> commentList = bookService.getComments(book);
+        List<Comment> commentList = book.getComments();
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("Комментарии к книге \"%s\":\n", book.getName()));
         if (!commentList.isEmpty()) {
-            commentList.stream().forEach(comment -> sb.append("\t").append(comment));
+            commentList.forEach(comment -> sb.append("\t").append(comment));
         } else {
             sb.append("вы можете оставить первый комментарий :)");
         }
@@ -102,12 +101,7 @@ public class LibraryController {
             System.out.println("Не удалось определить жанр!");
             return null;
         }
-        Book book = new Book();
-        book.setName(bookName);
-        book.setAuthor(author);
-        book.setGenre(genres.iterator().next());
-        book.setPage(page);
-
+        Book book = new Book(bookName, genres.iterator().next(), author, page);
         bookService.insertBook(book);
         System.out.println("Book created");
         return book.getId();
@@ -125,10 +119,7 @@ public class LibraryController {
         if (authorId != null || !StringUtils.isEmpty(authorBrief)){
             author = authorService.getAuthor(authorId, authorBrief);
         }
-        Book book = new Book();
-        book.setId(id);
-        book.setName(bookName);
-        book.setAuthor(author);
+        Book book = new Book(id, bookName, author);
         bookService.updateBook(book);
         System.out.println("Book updated");
     }

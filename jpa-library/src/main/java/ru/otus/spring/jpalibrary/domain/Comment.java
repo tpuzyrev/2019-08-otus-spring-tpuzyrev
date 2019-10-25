@@ -2,7 +2,6 @@ package ru.otus.spring.jpalibrary.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -14,6 +13,11 @@ import java.util.Date;
 @Table(name = "COMMENTS")
 public class Comment {
 
+    public Comment(Book book, String message) {
+        this.book = book;
+        this.message = message;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +25,7 @@ public class Comment {
     @Column(name = "MESSAGE")
     String message;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "BOOKID")
     Book book;
 

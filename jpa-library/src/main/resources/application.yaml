@@ -8,4 +8,4 @@ spring:
     enabled: true
     change-log: classpath:/db/changelog/rootChangelog.xml
   jpa:
-    show-sql: false
+    show-sql: true
