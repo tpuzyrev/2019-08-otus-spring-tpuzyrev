@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface AuthorService {
-    Iterable<Author> findAuthorsByBrief(String brief);
+    List<Author> findAuthorsByBrief(String brief);
 
     List<Author> getByIds(Collection<Long> ids);
 

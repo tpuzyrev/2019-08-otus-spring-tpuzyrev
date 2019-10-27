@@ -18,11 +18,11 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorDao;
 
     @Override
-    public Iterable<Author> findAuthorsByBrief(String brief) {
+    public List<Author> findAuthorsByBrief(String brief) {
         if (!StringUtils.isEmpty(brief)){
             return authorDao.findByNameIgnoreCase(brief);
         } else {
-            return authorDao.findAll();
+            return (List<Author>) authorDao.findAll();
         }
     }
 
@@ -40,7 +40,7 @@ public class AuthorServiceImpl implements AuthorService {
                 authors = Collections.singletonList(authorOptional.get());
             }
         } else if (!StringUtils.isEmpty(brief)) {
-            authors = (List<Author>) authorDao.findByNameIgnoreCase(brief);
+            authors = authorDao.findByNameIgnoreCase(brief);
         } else {
             throw new RuntimeException("Missing author param!");
         }

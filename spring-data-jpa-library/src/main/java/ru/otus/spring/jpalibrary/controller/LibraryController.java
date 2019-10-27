@@ -29,7 +29,7 @@ public class LibraryController {
             @ShellOption(defaultValue = "", value = {"n"}, arity = 1) String bookName,
             @ShellOption(defaultValue = "", value = {"a"}, arity = 1) String author,
             @ShellOption(defaultValue = "", value = {"g"}, arity = 1) String genre) {
-        return (List<Book>) bookService.getBooksByParam(bookName, author, genre);
+        return bookService.getBooksByParam(bookName, author, genre);
     }
 
     @ShellMethod(value = "Add comment for book", key = {"ac", "add comment"})
@@ -76,7 +76,7 @@ public class LibraryController {
 
     @ShellMethod(value = "Get authors", key = {"a", "authors"})
     public List<Author> getAuthors(@ShellOption(defaultValue = "", value = {"b"}) String brief) {
-        return (List<Author>) authorService.findAuthorsByBrief(brief);
+        return authorService.findAuthorsByBrief(brief);
     }
 
     @ShellMethod(value = "Create book", key = {"cb"})

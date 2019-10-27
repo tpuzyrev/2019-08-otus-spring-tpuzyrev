@@ -6,7 +6,7 @@ import ru.otus.spring.jpalibrary.domain.Comment;
 import java.util.List;
 
 public interface BookService {
-    Iterable<Book> getBooksByParam(String title, String authorBrief, String genreName);
+    List<Book> getBooksByParam(String title, String authorBrief, String genreName);
 
     Long insertBook(Book book);
 

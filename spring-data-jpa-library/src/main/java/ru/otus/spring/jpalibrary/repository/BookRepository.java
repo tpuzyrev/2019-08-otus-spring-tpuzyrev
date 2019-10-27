@@ -12,11 +12,11 @@ import java.util.Optional;
 public interface BookRepository extends CrudRepository<Book, Long> {
 
     @EntityGraph(value = "Book.AuthorAndGenre", type = EntityGraph.EntityGraphType.LOAD)
-    Iterable<Book> findBooksByNameAndAuthor_NameAndGenre_Name(String bookName, String authorName, String genreName);
+    List<Book> findBooksByNameAndAuthor_NameAndGenre_Name(String bookName, String authorName, String genreName);
 
     @Override
     @EntityGraph(value = "Book.AuthorAndGenre", type = EntityGraph.EntityGraphType.LOAD)
-    Iterable<Book> findAll();
+    List<Book> findAll();
 
     @Override
     @EntityGraph(value = "Book.AuthorAndGenre", type = EntityGraph.EntityGraphType.LOAD)

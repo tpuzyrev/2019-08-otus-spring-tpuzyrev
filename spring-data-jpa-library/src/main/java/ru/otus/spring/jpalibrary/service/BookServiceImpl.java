@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
     private final CommentRepository commentRepository;
 
     @Override
-    public Iterable<Book> getBooksByParam(String title, String authorBrief, String genreName) {
+    public List<Book> getBooksByParam(String title, String authorBrief, String genreName) {
         if (!StringUtils.isEmpty(title) || !StringUtils.isEmpty(authorBrief) || !StringUtils.isEmpty(genreName)){
             return bookRepository.findBooksByNameAndAuthor_NameAndGenre_Name(title, authorBrief, genreName);
         } else {
