@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="CREATE_BOOKS_TABLE" author="tpuzyryov">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="BOOKS"/></not>
+        </preConditions>
+        <createTable tableName="BOOKS" remarks="Авторы">
+            <column name="ID" type="NUMERIC(19,0)" remarks="Идентификатор" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_BOOKS"/>
+            </column>
+            <column name="NAME" type="VARCHAR(100)" remarks="Наименование книги"/>
+            <column name="AUTHORID" type="NUMERIC(19,0)" remarks="Идентификатор автора"/>
+            <column name="GENREID" type="NUMERIC(19,0)" remarks="Идентификатор жанра"/>
+            <column name="PAGE" type="INTEGER" remarks="Идентификатор жанра"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="CREATE_AUTHORS_TABLE" author="tpuzyryov">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="AUTHORS"/></not>
+        </preConditions>
+        <createTable tableName="AUTHORS" remarks="Авторы">
+            <column name="ID" type="NUMERIC(19,0)" remarks="Идентификатор" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_AUTHORS"/>
+            </column>
+            <column name="NAME" type="VARCHAR(100)" remarks="Наименование автора"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="BOOKS" baseColumnNames="AUTHORID" constraintName="FK_AUTHOR"
+                                 referencedTableName="AUTHORS"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="CREATE_GENRES_TABLE" author="tpuzyryov">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="GENRES"/></not>
+        </preConditions>
+        <createTable tableName="GENRES" remarks="Авторы">
+            <column name="ID" type="NUMERIC(19,0)" remarks="Идентификатор" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_GENRES"/>
+            </column>
+            <column name="NAME" type="VARCHAR(100)" remarks="Наименование жанра"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="BOOKS" baseColumnNames="GENREID" constraintName="FK_GENRE"
+                                 referencedTableName="GENRES"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="FILL_DATA" author="tpuzyryov">
+        <sqlFile path="db/changelog/data/data.sql"/>
+    </changeSet>
+
+    <changeSet id="CREATE_COMMENTS_TABLE" author="tpuzyryov">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="COMMENTS"/></not>
+        </preConditions>
+        <createTable tableName="COMMENTS" remarks="Комментарии к книгам">
+            <column name="ID" type="NUMERIC(19,0)" remarks="Идентификатор" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="PK_COMMENTS"/>
+            </column>
+            <column name="BOOKID" type="NUMERIC(19,0)" remarks="Ссылка на книгу"/>
+            <column name="MESSAGE" type="VARCHAR(MAX)" remarks="Текст комментария"/>
+            <column name="DATETIME" type="DATE" remarks="Текст комментария"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
