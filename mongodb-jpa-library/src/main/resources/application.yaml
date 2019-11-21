@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    show-sql: true
+  mongodb:
+    embedded:
+      features:
+  data:
+    mongodb:
+      host: 0.0.0.0
+#      port: 27017
+#      database: nullbeans
+#      username: myusername
+#      password: mypassword
+#      uri: mongodb://myusername:mypassword@localhost:27017/nullbeans
+#      authentication-database: admin
+
