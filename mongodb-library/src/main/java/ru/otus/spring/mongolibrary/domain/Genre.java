@@ -1,13 +1,12 @@
-package ru.otus.spring.jpalibrary.domain;
+package ru.otus.spring.mongolibrary.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.persistence.*;
-import java.math.BigInteger;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @Setter
@@ -17,8 +16,10 @@ import java.math.BigInteger;
 public class Genre {
 
     @Id
-    private BigInteger id;
+    @Field(value = "id")
+    private String id;
 
+    @Field(value = "name")
     private String name;
 
     public Genre(String name) {

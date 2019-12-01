@@ -1,11 +1,11 @@
-package ru.otus.spring.jpalibrary.domain;
+package ru.otus.spring.mongolibrary.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.*;
-import java.math.BigInteger;
 import java.time.Instant;
 import java.util.Date;
 
@@ -20,12 +20,16 @@ public class Comment {
     }
 
     @Id
-    private BigInteger id;
+    @Field(value = "id")
+    private String id;
 
+    @Field(value = "message")
     String message;
 
-    BigInteger bookId;
+    @Field(value = "bookId")
+    String bookId;
 
+    @Field(value = "datetime")
     Date datetime = Date.from(Instant.now());
 
     @Override

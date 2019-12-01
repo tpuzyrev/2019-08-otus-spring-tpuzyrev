@@ -1,12 +1,12 @@
-package ru.otus.spring.jpalibrary.domain;
+package ru.otus.spring.mongolibrary.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.persistence.*;
-import java.math.BigInteger;
 
 @Data
 @Document(collection = "Authors")
@@ -15,8 +15,10 @@ import java.math.BigInteger;
 public class Author {
 
     @Id
-    private BigInteger id;
+    @Field(value = "id")
+    private String id;
 
+    @Field(value = "name")
     private String name;
 
     public Author(String name) {
