@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.otus.spring.jpalibrary.domain.Author;
 import ru.otus.spring.jpalibrary.domain.Book;
@@ -26,7 +25,7 @@ public class BookRepositoryJPAImplTest {
     @Autowired
     private GenreRepository genreRepository;
     @Autowired
-    private AuthorRepository authorDao;
+    private AuthorRepository authorRepository;
     @Autowired
     private CommentRepository commentRepository;
 
@@ -72,7 +71,7 @@ public class BookRepositoryJPAImplTest {
 
     public Book prepareBook() {
         Genre genre = genreRepository.findByNameIgnoreCase("Роман").iterator().next();
-        Author author = authorDao.findByNameIgnoreCase("Тургенев Иван").iterator().next();
+        Author author = authorRepository.findByNameIgnoreCase("Тургенев Иван").iterator().next();
         return new Book("Отцы и дети", genre, author, 120);
     }
 }
